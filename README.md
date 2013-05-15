@@ -1,5 +1,7 @@
 # headrest
 
+[![Build Status](https://travis-ci.org/natlownes/headrest.png?branch=master)](https://travis-ci.org/natlownes/headrest)
+
 ```
 npm install headrest
 ```
