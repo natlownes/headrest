@@ -2,10 +2,6 @@
 
 [![Build Status](https://travis-ci.org/natlownes/headrest.png?branch=master)](https://travis-ci.org/natlownes/headrest)
 
-```
-npm install headrest
-```
-
 Provides a RESTful,
 [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) enabled
 webserver intended for use when developing rest-backed Javascript apps for the
