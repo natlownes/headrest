@@ -1,6 +1,6 @@
 express        = require 'express'
 WhoaDB         = require 'whoadb'
-headrestMiddleware = require './headrest_middleware'
+headrestMiddleware = require 'headrest-middleware'
 
 
 headrest = (options={}) ->

@@ -21,8 +21,14 @@ urlBase = "http://localhost:19134"
 urlFor = (path) ->
   "#{urlBase}#{path}"
 
+dbCleanup = (path) ->
+  if fs.existsSync(path) then fs.unlinkSync(path)
+
 before ->
-  if fs.existsSync(dbPath) then fs.unlinkSync(dbPath)
+  dbCleanup(dbPath)
+
+after ->
+  dbCleanup(dbPath)
 
 beforeEach ->
   @db = new WhoaDB(dbPath)
