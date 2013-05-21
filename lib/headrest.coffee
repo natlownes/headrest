@@ -1,5 +1,6 @@
-express        = require 'express'
-WhoaDB         = require 'whoadb'
+express            = require 'express'
+WhoaDB             = require 'whoadb'
+moment             = require 'moment'
 headrestMiddleware = require 'headrest-middleware'
 
 
@@ -7,6 +8,7 @@ headrest = (options={}) ->
   app     = options.app or express()
   apiRoot = options.apiRoot or '/api/'
   dbPath  = options.dbPath or '/tmp/whoadb-headrest.json'
+  cookieExpiry = -> moment().utc().add('weeks', 2).toDate()
 
   db = new WhoaDB(dbPath)
 
@@ -50,7 +52,7 @@ headrest = (options={}) ->
     db.save(record)
 
     response.cookie('headrest', record.id,
-      expires: (new Date(Date.now() + ((3600 * 1000) * 24)))
+      expires: cookieExpiry()
     )
 
     response.json(201, JSON.stringify(record))
