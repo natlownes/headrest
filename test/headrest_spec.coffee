@@ -222,6 +222,24 @@ describe 'session resource', ->
           done()
         deletion.fail -> new Error('session still exists')
 
+      it 'should set cookie value to empty string', (done) ->
+        deletion = helpers.deleteSession(@request, urlFor '/headrest/session')
+
+        deletion.done (res) ->
+          expect( res.headers['set-cookie'][0] ).to.have.string 'headrest=;'
+          done()
+        deletion.fail -> new Error('session cookie value')
+
+      it 'should set expiry to unix epoch', (done) ->
+        deletion = helpers.deleteSession(@request, urlFor '/headrest/session')
+        expectedExpiry = 'Expires=Thu, 01 Jan 1970 00:00:00 GMT'
+
+        deletion.done (res) ->
+          expect( res.headers['set-cookie'][0] ).
+            to.have.string expectedExpiry
+          done()
+        deletion.fail -> new Error('session cookie value')
+
       context 'after removing session', ->
         beforeEach (done) ->
           deletion = helpers.deleteSession(@request, urlFor '/headrest/session')
