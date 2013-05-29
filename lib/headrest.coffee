@@ -46,7 +46,10 @@ headrest = (options={}) ->
     response.json(code, out)
 
   app.post "#{apiRoot}session*", (request, response) ->
-    record = request.body
+    cookieId  = request.cookies.headrest
+    if cookieId then db.destroy(db.find('session', cookieId))
+    
+    record    = request.body
     record._collection = "session"
 
     db.save(record)
@@ -63,8 +66,8 @@ headrest = (options={}) ->
 
     db.destroy(record)
 
-    response.cookie('headrest', 'goodnightandgoodluck!',
-      expires: new Date(Date.now())
+    response.cookie('headrest', '',
+      expires: new Date(0)
     )
 
     response.send(204)
