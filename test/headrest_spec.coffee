@@ -1,10 +1,11 @@
-Q        = require 'q'
+Q        = require('q')
 expect   = require('chai').expect
 request  = require('superagent')
-WhoaDB   = require 'whoadb'
-helpers  = require './helpers'
+WhoaDB   = require('whoadb')
+helpers  = require('./helpers')
 headrest = require('../index')
-fs       = require 'fs'
+fs       = require('fs')
+moment   = require('moment')
 
 
 dbPath = '/tmp/headrest-test.json'
@@ -113,17 +114,32 @@ describe 'session resource', ->
         done()
 
     it 'should set a cookie with name of "headrest"', (done) ->
-        req = helpers.request(
-          @request,
-          'post',
-          (urlFor '/headrest/session'),
-          (username: 'Billy Martin', password: 'brawlin')
-        )
+      req = helpers.request(
+        @request,
+        'post',
+        (urlFor '/headrest/session'),
+        (username: 'Billy Martin', password: 'brawlin')
+      )
 
-        req.done (res) ->
-          expect( res.headers['set-cookie'] ).
-            to.match /^headrest=\w+/
-          done()
+      req.done (res) ->
+        expect( res.headers['set-cookie'] ).
+          to.match /^headrest=\w+/
+        done()
+
+    it 'should set expires date on cookie to 2 weeks from now', (done) ->
+      expectedExpiryDay = moment().utc().add('weeks', 2).format('ddd, DD MMM YYYY')
+
+      req = helpers.request(
+        @request,
+        'post',
+        (urlFor '/headrest/session'),
+        (username: 'Billy Martin', password: 'brawlin')
+      )
+
+      req.done (res) ->
+        expect( res.headers['set-cookie'][0] ).
+          to.have.string "Expires=#{expectedExpiryDay}"
+        done()
 
     it 'should respond with a session record', (done) ->
         req = helpers.request(
@@ -205,6 +221,24 @@ describe 'session resource', ->
           expect( res.status ).to.equal 204
           done()
         deletion.fail -> new Error('session still exists')
+
+      it 'should set cookie value to empty string', (done) ->
+        deletion = helpers.deleteSession(@request, urlFor '/headrest/session')
+
+        deletion.done (res) ->
+          expect( res.headers['set-cookie'][0] ).to.have.string 'headrest=;'
+          done()
+        deletion.fail -> new Error('session cookie value')
+
+      it 'should set expiry to unix epoch', (done) ->
+        deletion = helpers.deleteSession(@request, urlFor '/headrest/session')
+        expectedExpiry = 'Expires=Thu, 01 Jan 1970 00:00:00 GMT'
+
+        deletion.done (res) ->
+          expect( res.headers['set-cookie'][0] ).
+            to.have.string expectedExpiry
+          done()
+        deletion.fail -> new Error('session cookie value')
 
       context 'after removing session', ->
         beforeEach (done) ->
