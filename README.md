@@ -122,6 +122,8 @@ request.done(function(d) {
 ### TODO:
 
 * allow setting of session path.
+* keep each record in separate file (next major ver)
+* de-coffeeify?
 
 ### Contributing
 
