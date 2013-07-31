@@ -12,7 +12,7 @@
     "moment": "~2.0.x"
   },
   "devDependencies": {
-    "honk-cake": "git://github.com/natlownes/honk-cake.git#dependencies",
+    "honk-cake": "git://github.com/natlownes/honk-cake.git#develop",
     "grunt": "~0.4.0",
     "mocha": "~1.8.1",
     "superagent": "~0.14.x",
