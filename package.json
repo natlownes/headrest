@@ -3,7 +3,7 @@
   "author": "Nat Lownes <nat.lownes@gmail.com>",
   "description": "A restful, CORS enabled development server - for clicking around front end Javascript projects.",
   "main": "./lib/index.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "express": "~3.1.0",
     "whoadb": "~0.1.x",

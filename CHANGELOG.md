@@ -1,3 +1,8 @@
+# 0.1.1 2013-11-26
+
+* botched that 0.1.0 release.  updated .gitignore and .npmignore files to allow
+  for this type of project
+
 # 0.1.0 2013-11-26
 
 * move coffee-script from being a dependency into devDependencies
