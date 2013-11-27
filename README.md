@@ -123,8 +123,7 @@ request.done(function(d) {
 ### TODO:
 
 * allow setting of session path.
-* keep each record in separate file (next major ver)
-* de-coffeeify?
+* keep each record in a separate file (next major ver, whoadb)
 
 ### Contributing
 
