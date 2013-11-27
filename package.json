@@ -2,17 +2,17 @@
   "name": "headrest",
   "author": "Nat Lownes <nat.lownes@gmail.com>",
   "description": "A restful, CORS enabled development server - for clicking around front end Javascript projects.",
-  "main": "./index.coffee",
-  "version": "0.0.3",
+  "main": "./lib/index.js",
+  "version": "0.1.0",
   "dependencies": {
-    "coffee-script": "~1.6.0",
     "express": "~3.1.0",
     "whoadb": "~0.1.x",
     "headrest-middleware": "~0.0.x",
     "moment": "~2.0.x"
   },
   "devDependencies": {
-    "honk-cake": "git://github.com/natlownes/honk-cake.git#develop",
+    "coffee-script": "~1.6.0",
+    "honk-cake": ">=0.0.5",
     "grunt": "~0.4.0",
     "mocha": "~1.8.1",
     "superagent": "~0.14.x",
@@ -21,10 +21,13 @@
   },
   "directories": {
     "test": "test",
+    "src": "src",
     "lib": "lib"
   },
   "scripts": {
-    "test": "cake test"
+    "test": "cake test",
+    "test:watch": "cake test:watch",
+    "build": "find ./src -iname '*.coffee' | xargs coffee -c -o lib"
   },
   "readmeFilename": "README.md",
   "repository": {
@@ -32,7 +35,8 @@
     "url": "git://github.com/natlownes/headrest.git"
   },
   "keywords": [
-    "rest",
+    "REST",
+    "api",
     "webserver",
     "server",
     "http",
@@ -40,6 +44,7 @@
     "testing",
     "js",
     "frontend",
+    "ui",
     "clicking"
   ],
   "license": "BSD",

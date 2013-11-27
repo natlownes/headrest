@@ -1,3 +1,7 @@
+# 0.1.0 2013-11-26
+
+* move coffee-script from being a dependency into devDependencies
+
 # 0.0.3 2013-05-29
 
 * better cookie expiry and value on HTTP DELETE (thanks @tracker1)

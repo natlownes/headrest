@@ -18,6 +18,7 @@ You can set the apiRoot like:
 ```coffeescript
 headrest = require('headrest')(apiRoot: '/apis/', dbPath: '/tmp/gruntest.json')
 # headrest is an express app
+headrest.listen(5001)
 ```
 
 #### Resources

@@ -3,7 +3,7 @@ expect   = require('chai').expect
 request  = require('superagent')
 WhoaDB   = require('whoadb')
 helpers  = require('./helpers')
-headrest = require('../index')
+headrest = require('../src/index')
 fs       = require('fs')
 moment   = require('moment')
 
