@@ -7,7 +7,7 @@
   "dependencies": {
     "express": "~3.1.0",
     "whoadb": "~0.1.x",
-    "headrest-middleware": ">=0.0.4",
+    "headrest-middleware": ">=0.0.5",
     "moment": "~2.0.x"
   },
   "devDependencies": {
