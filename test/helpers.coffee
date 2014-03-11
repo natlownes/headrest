@@ -1,6 +1,8 @@
 Q = require 'q'
 
+
 helpers =
+
   loginUser: (agent, path) ->
     deferred = Q.defer()
     agent.
@@ -34,7 +36,7 @@ helpers =
     deferred = Q.defer()
     agent.
       del(path).
-      end (err, res) =>
+      end (err, res) ->
         isDeleted = helpers.sessionDeleted(agent, path)
 
         isDeleted.done -> deferred.resolve(res)
@@ -59,5 +61,3 @@ helpers =
 
 
 module.exports = helpers
-
-

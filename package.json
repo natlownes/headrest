@@ -7,7 +7,7 @@
   "dependencies": {
     "express": "~3.1.0",
     "whoadb": "~0.1.x",
-    "headrest-middleware": "~0.0.x",
+    "headrest-middleware": ">=0.0.4",
     "moment": "~2.0.x"
   },
   "devDependencies": {
@@ -17,7 +17,8 @@
     "mocha": "~1.8.1",
     "superagent": "~0.14.x",
     "chai": "~1.4.2",
-    "q": "~0.9.x"
+    "q": "~0.9.x",
+    "coffeelint": "~1.1.0"
   },
   "directories": {
     "test": "test",
@@ -25,9 +26,12 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "cake test",
+    "test": "npm run lint && cake test",
     "test:watch": "cake test:watch",
-    "build": "find ./src -iname '*.coffee' | xargs coffee -c -o lib"
+    "build": "find ./src -iname '*.coffee' | xargs coffee -c -o lib",
+    "lint": "find ./src ./test -iname '*.coffee' | xargs coffeelint",
+    "push": "git push origin master && git push origin --tags",
+    "prepublish": "npm run build"
   },
   "readmeFilename": "README.md",
   "repository": {

@@ -10,6 +10,27 @@ headrest = (options={}) ->
   dbPath  = options.dbPath or '/tmp/whoadb-headrest.json'
   cookieExpiry = -> moment().utc().add('weeks', 2).toDate()
 
+  allowedHeaders = [
+    'Content-Type'
+    'Cookie'
+    'x-requested-with'
+    'Accept'
+    'Cache-Control'
+    'Authorization'
+    'Origin'
+    'Referer'
+    'Pragma'
+    'User-Agent'
+  ]
+
+  allowedMethods = [
+    'GET'
+    'POST'
+    'PUT'
+    'DELETE'
+    'OPTIONS'
+  ]
+
   db = new WhoaDB(dbPath)
 
   app.configure ->
@@ -18,12 +39,10 @@ headrest = (options={}) ->
     app.use headrestMiddleware(apiRoot: apiRoot)
 
   setCorsHeaders = (response) ->
-    response.header("Access-Control-Allow-Origin", "*")
-    response.header("Access-Control-Allow-Credentials", true)
-    response.header( "Access-Control-Allow-Headers",
-      "Content-Type, Cookie, x-requested-with, Accept, Cache-Control, Authorization, Origin, Referer, Pragma, User-Agent"
-    )
-    response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+    response.header "Access-Control-Allow-Origin", "*"
+    response.header "Access-Control-Allow-Credentials", true
+    response.header "Access-Control-Allow-Headers", allowedHeaders.join(', ')
+    response.header "Access-Control-Allow-Methods", allowedMethods.join(', ')
 
   app.options "#{apiRoot}*", (request, response, next) ->
     setCorsHeaders(response)
@@ -135,5 +154,6 @@ headrest = (options={}) ->
     process.exit()
 
   return app
+
 
 module.exports = headrest
