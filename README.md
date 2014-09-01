@@ -41,11 +41,25 @@ Implements sessions at ```/api/session```.
 * DELETE ```/api/session``` - removes your session record and sets your cookie
   to expire.
 
+### Example gulpfile.coffee
+
+```coffeescript
+
+headrest = require 'headrest'
+
+
+gulp.task 'serve', ->
+  backend = headrest(apiRoot: '/api/', dbPath: '/tmp/headrest.json')
+  backend.listen(5001)
+  # other stuff here:  serve static assets, etc...
+
+```
+
 ### Example Gruntfile.coffee
 
 ```coffeescript
 
-headrest = require('headrest')(apiRoot: '/apis/', dbPath: '/tmp/gruntest.json')
+headrest = require('headrest')(apiRoot: '/apis/', dbPath: '/tmp/headrest.json')
 
 
 module.exports = (grunt) ->
