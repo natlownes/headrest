@@ -57,10 +57,7 @@ headrest = (options={}) ->
 
     record   = db.find('session', cookieId)
     code     = if record? then 200 else 404
-    out      = if record?
-      JSON.stringify(record)
-    else
-      null
+    out      = if record? then record else null
 
     response.json(code, out)
 
@@ -74,7 +71,7 @@ headrest = (options={}) ->
       expires: cookieExpiry()
     )
 
-    response.json(201, JSON.stringify(record))
+    response.json(201, record)
 
   app.delete "#{apiRoot}session*", (request, response) ->
     cookieId = request.cookies.headrest
@@ -90,13 +87,6 @@ headrest = (options={}) ->
 
   # end session
 
-  indexAction = (request, response, opts={}) ->
-    collection = request.headrest.collection()
-
-    records = db.all(collection)
-
-    response.json(200, JSON.stringify(records))
-
   createAction = (request, response, opts={}) ->
     collection = request.headrest.collection()
 
@@ -104,7 +94,7 @@ headrest = (options={}) ->
     record._collection = collection
     db.save(record)
 
-    response.json(201, JSON.stringify(record))
+    response.json(201, record)
 
   app.get "#{apiRoot}*", (request, response) ->
     collection = request.headrest.collection()
@@ -115,10 +105,9 @@ headrest = (options={}) ->
     else
       db.all(collection)
 
-    code   = if (results?) then 200 else 404
-    out    = JSON.stringify(results)
+    code = if results? then 200 else 404
 
-    response.json(code, out)
+    response.json(code, results)
 
   app.post "#{apiRoot}*", createAction
 

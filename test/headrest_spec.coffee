@@ -1,13 +1,13 @@
-expect   = require('chai').expect
 Q        = require('q')
 WhoaDB   = require('whoadb')
+expect   = require('chai').expect
 fs       = require('fs')
 moment   = require('moment')
 request  = require('superagent')
 
 helpers  = require('./helpers')
-headrest = require('../src/index')
 
+headrest = require('../src/index')
 
 dbPath = '/tmp/headrest-test.json'
 
@@ -35,6 +35,7 @@ after ->
 beforeEach ->
   @db = new WhoaDB(dbPath)
   @db.drop()
+
 
 describe 'OPTIONS request', ->
 
@@ -135,7 +136,7 @@ describe 'session resource', ->
         {username: 'Billy Martin', password: 'brawlin'}
 
       req.done (res) ->
-        record = JSON.parse(res.body)
+        record = JSON.parse(res.text)
         expect(record.id).not.to.be.undefined
         expect(record.username).to.equal 'Billy Martin'
         expect(record._collection).to.equal 'session'
@@ -176,7 +177,7 @@ describe 'session resource', ->
           (urlFor '/headrest/session')
 
         req.done (res) ->
-          obj = JSON.parse(res.body)
+          obj = JSON.parse(res.text)
 
           expect(obj.username).to.equal 'Billy Martin'
           expect(obj.id).not.to.be.undefined
@@ -251,7 +252,7 @@ describe 'writing objects', ->
       req = helpers.request @request, 'post', (urlFor '/headrest/animals'), @dog
 
       req.done (res) ->
-        obj = JSON.parse(res.body)
+        obj = JSON.parse(res.text)
 
         expect(obj._collection).to.equal 'animals'
         done()
@@ -260,7 +261,7 @@ describe 'writing objects', ->
       req = helpers.request @request, 'post', (urlFor '/headrest/animals'), @dog
 
       req.done (res) ->
-        obj = JSON.parse(res.body)
+        obj = JSON.parse(res.text)
         expect(obj.id).not.to.be.undefined
         done()
 
@@ -297,7 +298,7 @@ describe 'writing objects', ->
             urlFor('/headrest/put-dogs/md5dog')
 
           get.done (res) ->
-            obj = JSON.parse(res.body)
+            obj = JSON.parse(res.text)
 
             expect(obj.name).to.equal 'Bistro'
             done()
@@ -335,7 +336,7 @@ describe 'reading objects', ->
           (urlFor '/headrest/aint-no-dogs-in-here')
 
         req.done (res) ->
-          results = JSON.parse(res.body)
+          results = JSON.parse(res.text)
 
           expect(results).to.be.an 'array'
           expect(results).to.be.empty
@@ -354,11 +355,16 @@ describe 'reading objects', ->
 
         Q.all(reqs).done -> done()
 
+      it 'should not double quote json response', ->
+        req = helpers.request @request, 'get', (urlFor '/headrest/getdogs')
+        req.done (res) ->
+          expect(res.text).not.to.match /^".+"$/
+
       it 'should fetch all objects', (done) ->
         req = helpers.request @request, 'get', (urlFor '/headrest/getdogs')
 
         req.done (res) ->
-          dogs = JSON.parse(res.body)
+          dogs = JSON.parse(res.text)
 
           expect(dogs).to.have.length 2
 
@@ -404,7 +410,7 @@ describe 'reading objects', ->
           (urlFor '/headrest/get-test-pebbles/asfd')
 
         req.done (res) ->
-          obj = JSON.parse(res.body)
+          obj = JSON.parse(res.text)
           expect(obj.name).to.equal 'fish'
           done()
 
